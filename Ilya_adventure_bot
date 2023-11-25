@@ -1,0 +1,60 @@
+import telebot
+from telebot import types
+
+bot = telebot.TeleBot('6670580201:AAGYs8w27g8depYOv2BXZk4qIdpbnYSKhGM')
+#players = ['Hard','Medium','Low']
+@bot.message_handler(commands=['start'])
+def start(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    btn1 = types.KeyboardButton("👋 Поздороваться")
+    markup.add(btn1)
+    bot.send_message(message.from_user.id, "👋 Привет! Я твой бот-помошник!", reply_markup=markup)
+
+@bot.message_handler(content_types=['text'])
+def get_text_messages(message):
+    '''if message.text == '👋 Поздороваться':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True) # создание новых кнопок
+        btn1 = types.KeyboardButton(text='Как стать пeтешественником?')
+        btn2 = types.KeyboardButton(text='Как стать лучше?')
+        markup.add(btn1,btn2)
+        bot.send_message(message.from_user.id, '❓ Задайте интересующий вас вопрос', reply_markup=markup) # ответ бота'''
+    if message.text == '👋 Поздороваться':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)  # создание новых кнопок
+        btn1 = types.KeyboardButton(text='Hard_mode')
+        btn2 = types.KeyboardButton(text='Medium_mode')
+        btn3 = types.KeyboardButton(text='Low_mode')
+        markup.add(btn1, btn2,btn3)
+        bot.send_message(message.from_user.id, '❓ Какого персонажа вы хотите выбрать для путешествий?', reply_markup=markup)  # ответ бота
+    elif message.text == 'Hard_mode': # Проверка сообшения на "Hard_mode"
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        btn1 = types.KeyboardButton(text='Мурманск')
+        btn2 = types.KeyboardButton(text='Новосибирск')
+        btn3 = types.KeyboardButton(text='Эльбрус')
+        markup.add(btn1, btn2, btn3)
+        bot.send_message(message.from_user.id, 'Выбери место для путешествия',reply_markup=markup)
+    elif message.text == 'Мурманск':
+        print(5)
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        url = "https://www.prlib.ru/history/619599"
+        message_text = f"Вот ссылка на информацию о городе: {url}"
+        bot.send_message(message.from_user.id, message_text,  parse_mode='Markdown')
+
+    elif message.text == 'Новосибирск':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        url = "https://novo-sibirsk.ru/about/history/1893-1914/"
+        message_text = f"Вот ссылка на информацию о городе: {url}"
+        bot.send_message(message.from_user.id, message_text, parse_mode='Markdown')
+
+    elif message.text == 'Эльбрус':
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        url = "https://ru.wikipedia.org/wiki/%D0%AD%D0%BB%D1%8C%D0%B1%D1%80%D1%83%D1%81"
+        message_text = f"Вот ссылка на информацию о месте: {url}"
+        bot.send_message(message.from_user.id, message_text, parse_mode='Markdown')
+
+    elif message.text == 'Персонаж_Medium_mode':
+        bot.send_message(message.from_user.id, 'Нужно много учиться', parse_mode='Markdown')
+    elif message.text == 'Персонаж_Low_mode':
+
+        bot.send_message(message.from_user.id, 'Нужно много учиться', parse_mode='Markdown')
+
+bot.polling(none_stop=True, interval=0) # обязательная для работы бота часть
